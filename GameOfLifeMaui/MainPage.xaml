@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GameOfLifeMaui.MainPage"
+             Shell.NavBarIsVisible="false">
+			 
+    <Grid
+        BackgroundColor="#512BD4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <AbsoluteLayout x:Name="AbsoluteLayout"
+                   SizeChanged="OnLayoutSizeChanged"/>
+
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="20*, 20*, 20*, 20*, 20*"
+                  ColumnSpacing="6" 
+                  HorizontalOptions="FillAndExpand">
+            <Button x:Name="RunButton"
+                    Grid.Column="0"
+                    Text="Start"
+                    Clicked="OnRunButtonClicked" 
+                    HorizontalOptions="FillAndExpand" />
+            <Button Text="Clear"
+                    Grid.Column="1"
+                    Clicked="OnClearButtonClicked" 
+                    HorizontalOptions="FillAndExpand" />
+            <Button Text="Seed"
+                    Grid.Column="2"
+                    Clicked="OnSeedButtonClicked"
+                    HorizontalOptions="FillAndExpand" />
+            <Button Text="Speed"
+                    Grid.Column="3"
+                    Clicked="OnSpeedButtonClicked" 
+                    HorizontalOptions="FillAndExpand" />
+            <Button Text="Settings"
+                    Grid.Column="4"
+                    Clicked="OnSettingsButtonClicked" 
+                    HorizontalOptions="FillAndExpand"
+                    Padding="0"/>
+        </Grid>
+    </Grid>
+ 
+</ContentPage>

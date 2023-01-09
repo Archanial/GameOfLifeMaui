@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GameOfLifeMaui.SettingsPage"
+             Title="Settings">
+    
+    <TableView HasUnevenRows="True" Intent="Settings" >
+        <TableRoot>
+            <TableSection Title="Cell size">
+                <TextCell
+                    x:Name="CellSize"
+                    Tapped="OnCellSizeClick"/>
+            </TableSection>
+            <!--<TableSection Title="Colors" x:Name="ColorsSection">
+                <ViewCell>
+                    <ContentView Padding="5">
+                    <Frame Padding="10">
+                        <StackLayout Orientation="Horizontal">
+                            <BoxView Color="Aqua"
+                                     WidthRequest="50"
+                                     HeightRequest="50" />
+                            <StackLayout>
+                                <Label Text="Test"
+                                       FontSize="22"
+                                       VerticalOptions="StartAndExpand" />
+                                <Label Text="Test"
+                                       FontSize="16"
+                                       VerticalOptions="CenterAndExpand" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </ContentView> 
+                </ViewCell>
+            </TableSection>-->
+        </TableRoot>
+    </TableView>
+ 
+</ContentPage>
