@@ -4,7 +4,7 @@ Game of life maui is of course built using MAUI framework.
 This means the app could be run on environments such as: android, ios or windows.
 Project aims to implement Convay's Game of Life using visual controls.
 
-![default_view](Images/default_board.png)
+<img src=GameOfLifeMaui/Images/default_board.png width=360 height=860>
 
 <h2>Main functions</h2>
 The main functionality is the main screen showing the game cells. Each cell is a `Frame` object.
@@ -25,11 +25,11 @@ The application currently implements two pages: main page (where the game board 
 Main page allows user to interact directly with the board, start or pause the game, seed the board, change tick speed or go to settings.<br />
 Settings currently allow user to change the cell size, effectively increasing or decreasing the cells on the board. This setting is limited to minimal value 12 due to performance reasons.
 
-![30px](Images/30px.png)
+<img src=GameOfLifeMaui/Images/30px.png width=360 height=860>
 Board set to 30px cell size (default).
-![45px](Images/45px.png)
+<img src=GameOfLifeMaui/Images/45px.png width=360 height=860>
 Board set to 45 px cell size.
-![15](Images/15px.png)
+<img src=GameOfLifeMaui/Images/15px.png width=360 height=860>
 Board set to 15 px cell size.
 
 The application also includes two static helpers: `SettingsManager` - holding the settings and `PanGestureHandler` which handles the PanGesture, resolves cells and updates them.
