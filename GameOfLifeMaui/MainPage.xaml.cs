@@ -135,6 +135,7 @@ public partial class MainPage
 
     private async void OnSettingsButtonClicked(object sender, EventArgs eventArgs)
     {
+        StopRunning();
         await Navigation.PushAsync(new SettingsPage()); 
     }
 }

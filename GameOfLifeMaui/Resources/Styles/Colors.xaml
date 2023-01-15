@@ -15,8 +15,18 @@
     <Color x:Key="Gray400">#919191</Color>
     <Color x:Key="Gray500">#6E6E6E</Color>
     <Color x:Key="Gray600">#404040</Color>
+    <Color x:Key="Gray700">#323232</Color>
+    <Color x:Key="Gray800">#272727</Color>
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
+    <Color x:Key="DarkmodePageBackground">#1B1C1C</Color>
+    <Color x:Key="LightmodePageBackground">#F2F0F1</Color>
+    <Color x:Key="DarkmodeSecondary">#D8E4EF</Color>
+    <Color x:Key="LightmodeSecondary">#464748</Color>
+    <Color x:Key="DarkmodeFontColor">#EDEBEC</Color>
+    <Color x:Key="LightmodeFontColor">#2A2B2B</Color>
+    <Color x:Key="DarkmodeBackground">#424242</Color>
+    <Color x:Key="LightmodeBackground">#FFFFFF</Color>
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>

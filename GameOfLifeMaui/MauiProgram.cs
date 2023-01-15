@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace GameOfLifeMaui;
 public static class MauiProgram
@@ -11,7 +12,8 @@ public static class MauiProgram
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
         })
-            .UseMauiCommunityToolkit();
+            .UseMauiCommunityToolkit()
+            .UseSkiaSharp();
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddTransient<SettingsPage>();

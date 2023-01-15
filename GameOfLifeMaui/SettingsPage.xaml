@@ -4,35 +4,55 @@
              x:Class="GameOfLifeMaui.SettingsPage"
              Title="Settings">
     
-    <TableView HasUnevenRows="True" Intent="Settings" >
-        <TableRoot>
-            <TableSection Title="Cell size">
-                <TextCell
-                    x:Name="CellSize"
-                    Tapped="OnCellSizeClick"/>
-            </TableSection>
-            <!--<TableSection Title="Colors" x:Name="ColorsSection">
-                <ViewCell>
-                    <ContentView Padding="5">
-                    <Frame Padding="10">
-                        <StackLayout Orientation="Horizontal">
-                            <BoxView Color="Aqua"
-                                     WidthRequest="50"
-                                     HeightRequest="50" />
-                            <StackLayout>
-                                <Label Text="Test"
-                                       FontSize="22"
-                                       VerticalOptions="StartAndExpand" />
-                                <Label Text="Test"
-                                       FontSize="16"
-                                       VerticalOptions="CenterAndExpand" />
-                            </StackLayout>
-                        </StackLayout>
-                    </Frame>
-                </ContentView> 
-                </ViewCell>
-            </TableSection>-->
-        </TableRoot>
-    </TableView>
- 
+    <ScrollView>
+        <Grid class="Settings">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0"
+                   class="SettingsSmall"
+                Text="CELL SIZE"/>
+            <Label Grid.Row="1" 
+                   class="Settings"
+                   x:Name="CellSize">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="OnCellSizeClick"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Label Grid.Row="2"
+                   class="SettingsSmall"
+                   Text="RULESTRING"/>
+            <Label Grid.Row="3"
+                   class="Settings"
+                   x:Name="Rulestring">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="ChangeRulestring"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Label Grid.Row="4"
+                   class="SettingsSmall"
+                   Text="COLORS"/>
+            <Label Grid.Row="5"
+                   class="Settings"
+                   x:Name="TappedAge">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="TappedCellAgeChange"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Grid Grid.Row="6"
+                  class="Settings"
+                  x:Name="ColorsSection"/>
+            </Grid>
+    </ScrollView>
+    
 </ContentPage>

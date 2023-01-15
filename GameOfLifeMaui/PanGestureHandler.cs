@@ -53,9 +53,8 @@ public sealed class PanGestureHandler
             return;
         }
         
-        //Let's assume we are in the middle of the cell
-        var currentX = view.X + view.Height/2 + e.TotalX;
-        var currentY = view.Y + view.Width/2 + e.TotalY;
+        var currentX = view.X + e.TotalX;
+        var currentY = view.Y + e.TotalY;
         if (currentX > _layout.Width)
         {
             currentX = _layout.Width;

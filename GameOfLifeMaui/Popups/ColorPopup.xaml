@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:views="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+      xmlns:colorPicker="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+      x:Class="GameOfLifeMaui.Popups.ColorPopup">
+      
+      <Grid class="Popup"
+            Padding="10, 10, 10, 10"
+            Margin="10, 10, 10, 10">
+            <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="2*" />
+                  <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label 
+                   class="Popup"
+                   VerticalOptions="Center"
+                   Text="Age: "/>
+            <Entry Grid.Row="0" Grid.Column="1"
+                   class="Popup"
+                   x:Name="AgeField"
+                   Keyboard="Numeric" 
+                   Completed="AgeFieldOnCompleted"/>
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                   class="Popup"
+                   x:Name="ColorField"
+                   Text="Color: "/>
+            <Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                   Padding="0,0,0,0"
+                   HeightRequest="150"
+                   WidthRequest="300">
+                   <colorPicker:ColorPicker 
+                        HeightRequest="150"
+                        WidthRequest="300"
+                        ColorFlowDirection="Horizontal"
+                        ColorSpectrumStyle="ShadeToHueStyle"
+                        PointerRingBorderUnits="0.3"
+                        PointerRingDiameterUnits="0.7"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
+                        PickedColorChanged="OnPickedColorChanged"/>
+            </Frame>
+            <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
+                  HorizontalOptions="End">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                        class="Popup"
+                        Text="Cancel"
+                        Clicked="CancelButtonClicked"/>
+                <Button Grid.Column="1"
+                        class="Popup"
+                        Text="Confirm"
+                        Clicked="ConfirmButtonClicked"/>
+            </Grid>
+      </Grid>
+</views:Popup>

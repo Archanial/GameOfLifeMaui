@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:views="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+      x:Class="GameOfLifeMaui.Popups.RulestringPopup">
+       
+      <Grid  class="Popup"
+             ColumnSpacing="0"
+             WidthRequest="200"
+             HeightRequest="200"
+             Padding="10, 10, 10, 10">
+             <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+             </Grid.ColumnDefinitions>
+             <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+             </Grid.RowDefinitions>
+             <Entry 
+                    class="Popup"
+                    Text="B"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    IsReadOnly="True"/>
+             <Entry Grid.Row="0" Grid.Column="1" 
+                    class="Popup"
+                    x:Name="BKey"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"
+                    Keyboard="Numeric"
+                    Completed="BKeyOnCompleted"/>
+             <Entry Grid.Row="1" Grid.Column="0" 
+                    class="Popup"
+                    Text="S"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    IsReadOnly="True"/>
+             <Entry Grid.Row="1" Grid.Column="1"
+                    class="Popup"
+                    x:Name="SKey"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"
+                    Keyboard="Numeric"
+                    Completed="SKeyOnCompleted"/>
+             <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                   HorizontalOptions="End">
+                    <Grid.ColumnDefinitions>
+                           <ColumnDefinition Width="auto"/>
+                           <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button 
+                           Grid.Column="0"
+                           class="Popup"
+                           Text="Cancel"
+                           Clicked="CancelButtonClicked"/>
+                    <Button 
+                           Grid.Column="1"
+                           class="Popup"
+                           Text="Confirm"
+                           Clicked="ConfirmButtonClicked"/>
+             </Grid>
+      </Grid>
+</views:Popup>

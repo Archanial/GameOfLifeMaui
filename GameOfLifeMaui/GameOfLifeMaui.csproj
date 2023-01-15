@@ -57,10 +57,26 @@
 
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Maui" Version="3.1.0" />
+      <PackageReference Include="nor0x.Maui.ColorPicker" Version="1.0.1" />
     </ItemGroup>
 
     <ItemGroup>
       <MauiXaml Update="SettingsPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="ColorHolder.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Popups\ColorPopup.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Popups\RulestringPopup.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Popups\CellSizePopup.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Popups\CellAgePopup.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>
@@ -68,6 +84,26 @@
     <ItemGroup>
       <Compile Update="SettingsPage.xaml.cs">
         <DependentUpon>SettingsPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ColorHolder.xaml.cs">
+        <DependentUpon>ColorHolder.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Popups\ColorPopup.xaml.cs">
+        <DependentUpon>ColorPopup.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Popups\RulestringPopup.xaml.cs">
+        <DependentUpon>RulestringPopup.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Popups\CellSizePopup.xaml.cs">
+        <DependentUpon>CellSizePopup.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Popups\CellAgePopup.xaml.cs">
+        <DependentUpon>CellAgePopup.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

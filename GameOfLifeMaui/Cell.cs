@@ -28,8 +28,6 @@ public sealed class Cell : Frame
         var panGesture = new PanGestureRecognizer();
         panGesture.PanUpdated += PanGestureHandler.GetInstance(_game).OnPanUpdated;
         tapGesture.Tapped += (_, _) => OnClick();
-        //_internalImage.GestureRecognizers.Add(tapGesture);
-        //_internalImage.GestureRecognizers.Add(panGesture);
         GestureRecognizers.Add(tapGesture);
         GestureRecognizers.Add(panGesture);
         BackgroundColor = new Color(81, 43, 212); //same as background
@@ -46,11 +44,14 @@ public sealed class Cell : Frame
         var livingCellsNearby = _game.GetLivingCells(IndexX, IndexY);
         if (IsAlive)
         {
-            SetNextState(livingCellsNearby is 2 or 3);
+            SetNextState(IndexFound(livingCellsNearby, SettingsManager.SArg));
+            //SetNextState(SettingsManager.SArg.Contains(livingCellsNearby));
+            //SetNextState(livingCellsNearby is 2 or 3);
             return IsAlive;
         }
 
-        SetNextState(livingCellsNearby == 3);
+        SetNextState(IndexFound(livingCellsNearby, SettingsManager.BArg));
+        //SetNextState(livingCellsNearby == 3);
 
         return IsAlive;
     }
@@ -73,10 +74,12 @@ public sealed class Cell : Frame
 
         if (!_isFrozen)
         {
-            ((BoxView)Content).Color = GetColor();
+            UpdateColor();
         }
         _nextState = alive;
     }
+
+    public void UpdateColor() => ((BoxView)Content).Color = SettingsManager.GetColor(_age);
 
     public void Freeze()
     {
@@ -102,23 +105,14 @@ public sealed class Cell : Frame
 
     public void OnClick(bool? forcedAlive = null)
     {
-        _age = 10;
+        _age = SettingsManager.TappedAge;
         SetNextState(forcedAlive ?? !IsAlive);
         SetCurrentState();
     }
-    
-    private Color GetColor() =>
-        _age switch
-        {
-            0 => Color.FromRgb(255, 255, 255),
-            1 => Color.FromRgb(165, 245, 122),
-            2 => Color.FromRgb(145, 237, 95),
-            3 => Color.FromRgb(120, 240, 55),
-            4 => Color.FromRgb(87, 199, 26),
-            5 => Color.FromRgb(62, 145, 16),
-            6 => Color.FromRgb(43, 105, 9),
-            7 => Color.FromRgb(32, 79, 6),
-            8 => Color.FromRgb(21, 54, 3),
-            _ => Color.FromRgb(0, 0, 0)
-        };
+
+    private static bool IndexFound(int value, int[] array)
+    {
+        var index = Array.BinarySearch(array, value);
+        return index >= 0 && index < array.Length;
+    }
 }

@@ -16,8 +16,6 @@ public sealed class Game
 
     public readonly AbsoluteLayout Layout;
     
-    //private const int MaxCellCount = 400;
-    //private const int MaxCellSize = 300;
     private const int CellSpacing = 2;
     
     public Game(AbsoluteLayout layout)
@@ -96,23 +94,7 @@ public sealed class Game
     {
         var newY = (int)(layout.Height / _cellSize);
         var newX = (int)(layout.Width / _cellSize);
-
-        // if (newY * newX > MaxCellCount)
-        // {
-        //     _cellSize = (int)Math.Sqrt(Layout.Width * Layout.Height / MaxCellCount);
-        //     newY = (int)(Layout.Width / _cellSize);
-        //     newX = (int)(Layout.Height / _cellSize);
-        // }
-        // else
-        // {
-        //     _cellSize = (int)Math.Max(Layout.Width / newY, Layout.Height / newX);
-        // }
-
-        // if (_cellSize > MaxCellSize)
-        // {
-        //     _cellSize = MaxCellSize;
-        // }
-
+        
         _xMargin = (int)((layout.Width - newX * _cellSize) / 2);
         _yMargin = (int)((layout.Height - newY * _cellSize) / 2);
 
@@ -122,6 +104,14 @@ public sealed class Game
         }
 
         return Task.CompletedTask;
+    }
+
+    public void UpdateColors()
+    {
+        foreach (var cell in _generation)
+        {
+            cell.UpdateColor();
+        }
     }
     
     public Cell GetNearestChild(double x, double y)
