@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui;
+using GameOfLifeMaui.ViewModels;
+using GameOfLifeMaui.ViewModels.Pages;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace GameOfLifeMaui;
@@ -17,6 +19,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddTransient<SettingsPage>();
+        builder.Services.AddSingleton<IDatabase, GoLDatabase>();
         
         return builder.Build();
     }

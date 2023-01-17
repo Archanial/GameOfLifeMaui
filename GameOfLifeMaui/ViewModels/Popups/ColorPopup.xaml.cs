@@ -1,4 +1,6 @@
-﻿namespace GameOfLifeMaui.Popups;
+﻿using GameOfLifeMaui.ViewModels.Pages;
+
+namespace GameOfLifeMaui.ViewModels.Popups;
 
 public partial class ColorPopup
 {
@@ -21,17 +23,18 @@ public partial class ColorPopup
         }
     }
 
-    private void ConfirmButtonClicked(object sender, EventArgs e)
+    private async void ConfirmButtonClicked(object sender, EventArgs e)
     {
         if (!int.TryParse(AgeField.Text, out var age) || age <= 0)
         {
             return;
         }
-        SettingsManager.AddOrUpdateColor(age, _color);
+        await SettingsManager.AddOrUpdateColor(age, _color);
         if (Shell.Current.CurrentPage is SettingsPage settingsPage)
         {
             settingsPage.BuildColors();
         }
+        
         Close();
     }
     

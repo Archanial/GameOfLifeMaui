@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
+using GameOfLifeMaui.ViewModels.Pages;
 
-namespace GameOfLifeMaui.Popups;
+namespace GameOfLifeMaui.ViewModels.Popups;
 
 public partial class CellAgePopup
 {
@@ -24,7 +25,7 @@ public partial class CellAgePopup
             return;
         }
 
-        SettingsManager.TappedAge = parsed;
+        await SettingsManager.ChangeTappedCellAge(parsed);
         if (Shell.Current.CurrentPage is SettingsPage settingsPage)
         {
             settingsPage.TappedAgeChange();

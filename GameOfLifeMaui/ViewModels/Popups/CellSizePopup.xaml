@@ -2,7 +2,7 @@
 <views:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       xmlns:views="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-      x:Class="GameOfLifeMaui.Popups.CellSizePopup">
+      x:Class="GameOfLifeMaui.ViewModels.Popups.CellSizePopup">
        
       <AbsoluteLayout>
              <Grid class="Popup"

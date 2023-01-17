@@ -1,4 +1,4 @@
-﻿namespace GameOfLifeMaui;
+﻿namespace GameOfLifeMaui.ViewModels;
 
 public partial class App
 {

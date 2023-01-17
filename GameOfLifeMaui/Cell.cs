@@ -45,14 +45,10 @@ public sealed class Cell : Frame
         if (IsAlive)
         {
             SetNextState(IndexFound(livingCellsNearby, SettingsManager.SArg));
-            //SetNextState(SettingsManager.SArg.Contains(livingCellsNearby));
-            //SetNextState(livingCellsNearby is 2 or 3);
             return IsAlive;
         }
 
         SetNextState(IndexFound(livingCellsNearby, SettingsManager.BArg));
-        //SetNextState(livingCellsNearby == 3);
-
         return IsAlive;
     }
 

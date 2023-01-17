@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       xmlns:views="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
       xmlns:colorPicker="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
-      x:Class="GameOfLifeMaui.Popups.ColorPopup">
+      x:Class="GameOfLifeMaui.ViewModels.Popups.ColorPopup">
       
       <Grid class="Popup"
             Padding="10, 10, 10, 10"

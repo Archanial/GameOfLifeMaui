@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
-using GameOfLifeMaui.Popups;
+using GameOfLifeMaui.ViewModels.Popups;
 
-namespace GameOfLifeMaui;
+namespace GameOfLifeMaui.ViewModels.Pages;
 
 public partial class SettingsPage
 {

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
+using GameOfLifeMaui.ViewModels.Pages;
 
-namespace GameOfLifeMaui;
+namespace GameOfLifeMaui.ViewModels;
 
 public partial class ColorHolder
 {
@@ -87,9 +88,9 @@ public partial class ColorHolder
         }, 0, 1);
     }
 
-    private void DeleteButtonOnClicked(object sender, EventArgs e)
+    private async void DeleteButtonOnClicked(object sender, EventArgs e)
     {
-        SettingsManager.TryRemoveColor(_age);
+        await SettingsManager.TryRemoveColor(_age);
         if (Shell.Current.CurrentPage is SettingsPage settingsPage)
         {
             settingsPage.BuildColors();

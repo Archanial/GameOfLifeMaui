@@ -1,17 +1,21 @@
-﻿namespace GameOfLifeMaui;
+﻿namespace GameOfLifeMaui.ViewModels.Pages;
 
 public partial class MainPage
 {
     private readonly Game _game;
     
     private readonly IDispatcherTimer _timer;
-    
-    public MainPage()
+
+    public MainPage(IServiceProvider provider)
     {
         InitializeComponent();
+
+        var database = provider.GetService<IDatabase>();
         
         _game = new Game(AbsoluteLayout);
         SettingsManager.Game = _game;
+        SettingsManager.Database = database;
+        SettingsManager.LoadSettings();
         _timer = Dispatcher.CreateTimer();
         _timer.Interval = TimeSpan.FromMilliseconds(250);
         _timer.IsRepeating = true;
@@ -21,9 +25,6 @@ public partial class MainPage
         };
         var tapGesture = new TapGestureRecognizer();
         tapGesture.Tapped += OnTapped;
-        // var panGesture = new PanGestureRecognizer();
-        // panGesture.PanUpdated += PanGestureHandler.GetInstance(_game).OnPanUpdated;
-        // AbsoluteLayout.GestureRecognizers.Add(panGesture);
         AbsoluteLayout.GestureRecognizers.Add(tapGesture);
     }
 
@@ -136,6 +137,7 @@ public partial class MainPage
     private async void OnSettingsButtonClicked(object sender, EventArgs eventArgs)
     {
         StopRunning();
-        await Navigation.PushAsync(new SettingsPage()); 
+        var page = new SettingsPage();
+        await Navigation.PushAsync(page);
     }
 }

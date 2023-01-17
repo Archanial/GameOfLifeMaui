@@ -1,4 +1,6 @@
-﻿namespace GameOfLifeMaui.Popups;
+﻿using GameOfLifeMaui.ViewModels.Pages;
+
+namespace GameOfLifeMaui.ViewModels.Popups;
 
 public partial class RulestringPopup
 {
@@ -13,7 +15,7 @@ public partial class RulestringPopup
 
     private void CancelButtonClicked(object sender, EventArgs e) => Close();
 
-    private void ConfirmButtonClicked(object sender, EventArgs e)
+    private async void ConfirmButtonClicked(object sender, EventArgs e)
     {
         var newS = (from character in SKey.Text where char.IsDigit(character) select character - '0')
             .ToArray();
@@ -22,8 +24,8 @@ public partial class RulestringPopup
             .ToArray();
         Array.Sort(newB);
         Array.Sort(newS);
-        SettingsManager.SetRulestring(newB, newS);
-
+        await SettingsManager.SetRulestring(newB, newS);
+        
         if (Shell.Current.CurrentPage is SettingsPage settingsPage)
         {
             settingsPage.UpdateRulestring();

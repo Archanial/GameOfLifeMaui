@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
+using GameOfLifeMaui.ViewModels.Pages;
 
-namespace GameOfLifeMaui.Popups;
+namespace GameOfLifeMaui.ViewModels.Popups;
 
 public partial class CellSizePopup
 {
@@ -24,7 +25,7 @@ public partial class CellSizePopup
             await Toast.Make("Entered value too small or too big").Show();
             return;
         }
-
+        
         if (Shell.Current.CurrentPage is SettingsPage settingsPage)
         {
             settingsPage.OnSizeChanged(parsed);
