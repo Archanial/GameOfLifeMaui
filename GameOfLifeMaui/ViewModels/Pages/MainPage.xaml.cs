@@ -1,6 +1,6 @@
 ﻿namespace GameOfLifeMaui.ViewModels.Pages;
 
-public partial class MainPage
+public sealed partial class MainPage
 {
     private readonly Game _game;
     
@@ -138,6 +138,7 @@ public partial class MainPage
     {
         StopRunning();
         var page = new SettingsPage();
+        await page.GetTime();
         await Navigation.PushAsync(page);
     }
 }
