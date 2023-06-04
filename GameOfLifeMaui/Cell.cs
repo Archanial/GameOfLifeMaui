@@ -3,12 +3,12 @@
 public sealed class Cell : Frame
 {
     public bool IsAlive;
+    
+    public int Age { get; set; }
 
     private bool _nextState;
 
     private readonly Game _game;
-
-    private int _age;
 
     public int IndexX { get; }
 
@@ -26,7 +26,7 @@ public sealed class Cell : Frame
 
         var tapGesture = new TapGestureRecognizer();
         var panGesture = new PanGestureRecognizer();
-        panGesture.PanUpdated += PanGestureHandler.GetInstance(_game).OnPanUpdated;
+        panGesture.PanUpdated += PanGestureHandler.OnPanUpdated;
         tapGesture.Tapped += (_, _) => OnClick();
         GestureRecognizers.Add(tapGesture);
         GestureRecognizers.Add(panGesture);
@@ -57,15 +57,22 @@ public sealed class Cell : Frame
         IsAlive = _nextState;
     }
 
-    public void SetNextState(bool alive)
+    public void SetNextState(bool alive, int? age = null)
     {
         if (alive)
         {
-            _age++;
+            if (age.HasValue)
+            {
+                Age = age.Value;
+            }
+            else
+            {
+                Age++;
+            }
         }
         else
         {
-            _age = 0;
+            Age = 0;
         }
 
         if (!_isFrozen)
@@ -75,7 +82,7 @@ public sealed class Cell : Frame
         _nextState = alive;
     }
 
-    public void UpdateColor() => ((BoxView)Content).Color = SettingsManager.GetColor(_age);
+    public void UpdateColor() => ((BoxView)Content).Color = SettingsManager.GetColor(Age);
 
     public void Freeze()
     {
@@ -101,7 +108,7 @@ public sealed class Cell : Frame
 
     public void OnClick(bool? forcedAlive = null)
     {
-        _age = SettingsManager.TappedAge;
+        Age = SettingsManager.TappedAge;
         SetNextState(forcedAlive ?? !IsAlive);
         SetCurrentState();
     }

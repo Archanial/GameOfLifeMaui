@@ -21,4 +21,8 @@ public static class Constants
     public const string FieldNameTappedAge = "TappedAge";
     
     public const string FieldNameCellSize = "CurrentCellSize";
+    
+    public const string FieldMiscSettings = "MiscSettings";
+    
+    public const string FieldNextButtonFrames = "NextButtonFrames";
 }

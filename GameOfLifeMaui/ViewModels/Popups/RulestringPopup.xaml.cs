@@ -2,7 +2,7 @@
 
 namespace GameOfLifeMaui.ViewModels.Popups;
 
-public partial class RulestringPopup
+public sealed partial class RulestringPopup
 {
     public RulestringPopup()
     {

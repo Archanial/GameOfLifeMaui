@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:views="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+      x:Class="GameOfLifeMaui.ViewModels.Popups.NextCyclesPopup">
+       
+      <AbsoluteLayout>
+             <Grid class="Popup"
+                   ColumnSpacing="0"
+                   WidthRequest="300"
+                   HeightRequest="260"
+                   Padding="10, 10, 10, 10">
+                   <Grid.RowDefinitions>
+                          <RowDefinition Height="*"/>
+                          <RowDefinition Height="*"/>
+                          <RowDefinition Height="*"/>
+                          <RowDefinition Height="auto"/>
+                   </Grid.RowDefinitions>
+                   <Label 
+                          class="Popup"
+                          Text="New generations to calculate"
+                          HorizontalOptions="Start"
+                          VerticalOptions="Center"/>
+                   <Label Grid.Row="1"
+                          class="Popup"
+                          Text="How many generations should be passed with each Next button press?
+                          Cannot be less than or equal to 0!"
+                          FontSize="16"
+                          HorizontalOptions="Start"
+                          VerticalOptions="Center">
+                   </Label>
+                   <Entry Grid.Row="2"
+                          class="Popup"
+                          x:Name="SizeLabel"
+                          HorizontalOptions="Fill"
+                          VerticalOptions="Center"
+                          Completed="ConfirmButtonClicked"
+                          Keyboard="Numeric"/>
+                   <Grid Grid.Row="3"
+                         HorizontalOptions="End">
+                          <Grid.ColumnDefinitions>
+                                 <ColumnDefinition Width="auto"/>
+                                 <ColumnDefinition Width="auto"/>
+                          </Grid.ColumnDefinitions>
+                          <Button 
+                                 Grid.Column="0"
+                                 class="Popup"
+                                 Text="Cancel"
+                                 Clicked="CancelButtonClicked"/>
+                          <Button 
+                                 Grid.Column="1"
+                                 class="Popup"
+                                 Text="Confirm"
+                                 Clicked="ConfirmButtonClicked"/>
+                   </Grid>
+             </Grid>
+      </AbsoluteLayout> 
+      
+</views:Popup>

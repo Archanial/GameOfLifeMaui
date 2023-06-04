@@ -2,14 +2,18 @@
 <views:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       xmlns:views="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-      x:Class="GameOfLifeMaui.ViewModels.Popups.CellAgePopup">
+      x:Class="GameOfLifeMaui.ViewModels.Popups.FractalPopup">
        
       <Grid class="Popup"
             ColumnSpacing="0"
-            WidthRequest="600"
-            HeightRequest="250"
+            WidthRequest="400"
+            HeightRequest="400"
             Padding="10, 10, 10, 10">
             <Grid.RowDefinitions>
+                   <RowDefinition Height="*"/>
+                   <RowDefinition Height="*"/>
+                   <RowDefinition Height="*"/>
+                   <RowDefinition Height="*"/>
                    <RowDefinition Height="*"/>
                    <RowDefinition Height="*"/>
                    <RowDefinition Height="*"/>
@@ -17,24 +21,52 @@
             </Grid.RowDefinitions>
             <Label 
                    class="Popup"
-                   Text="New cell tapped age"
+                   Text="Draw fractal"
                    HorizontalOptions="Start"
                    VerticalOptions="Center"/>
             <Label Grid.Row="1"
                    class="Popup"
-                   Text="Age that gets set to the cell after it gets tapped. Default value is 10."
+                   Text="Width"
                    FontSize="16"
                    HorizontalOptions="Start"
                    VerticalOptions="Center">
             </Label>
             <Entry Grid.Row="2"
                    class="Popup"
-                   x:Name="SizeLabel"
+                   x:Name="Width"
                    HorizontalOptions="Fill"
                    VerticalOptions="Center"
                    Completed="ConfirmButtonClicked"
                    Keyboard="Numeric"/>
-            <Grid Grid.Row="3"
+            <Label Grid.Row="3"
+                   class="Popup"
+                   Text="Height"
+                   FontSize="16"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center">
+            </Label>
+            <Entry Grid.Row="4"
+                   class="Popup"
+                   x:Name="Height"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Center"
+                   Completed="ConfirmButtonClicked"
+                   Keyboard="Numeric"/>
+            <Label Grid.Row="5"
+                   class="Popup"
+                   Text="Iterations"
+                   FontSize="16"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center">
+            </Label>
+            <Entry Grid.Row="6"
+                   class="Popup"
+                   x:Name="Iterations"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Center"
+                   Completed="ConfirmButtonClicked"
+                   Keyboard="Numeric"/>
+            <Grid Grid.Row="7"
                   HorizontalOptions="End">
                    <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="auto"/>

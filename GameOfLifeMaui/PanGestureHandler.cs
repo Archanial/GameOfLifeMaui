@@ -1,38 +1,34 @@
-﻿using AView = Android.Views.View;
+﻿using GameOfLifeMaui.ViewModels.Pages;
 using View = Microsoft.Maui.Controls.View;
 
 namespace GameOfLifeMaui;
 
-public sealed class PanGestureHandler
+public static class PanGestureHandler
 {
-    private static PanGestureHandler _instance;
+    private static Game _game;
     
-    private readonly Game _game;
+    private static MainPage _mainPage;
 
-    private readonly AbsoluteLayout _layout;
+    private static AbsoluteLayout _layout;
     
-    private double _lastPanX;
+    private static double _lastPanX;
 
-    private double _lastPanY;
+    private static double _lastPanY;
 
-    private Cell _lastCell;
+    private static Cell _lastCell;
     
     private const double Tolerance = 0.1;
 
-    private List<Cell> _frozenCells = new();
+    private static List<Cell> _frozenCells = new();
 
-    private PanGestureHandler(Game game)
+    public static void Initialize(Game game, MainPage mainPage)
     {
         _game = game;
-        _layout = game.Layout;
+        _mainPage = mainPage;
+        _layout = mainPage.GameLayout;
     }
     
-    public static PanGestureHandler GetInstance(Game game)
-    {
-        return _instance ??= new PanGestureHandler(game);
-    }
-
-    public void OnPanUpdated(object sender, PanUpdatedEventArgs e)
+    public static void OnPanUpdated(object sender, PanUpdatedEventArgs e)
     {
         if (e.StatusType is GestureStatus.Canceled or GestureStatus.Completed)
         {
@@ -52,17 +48,22 @@ public sealed class PanGestureHandler
         {
             return;
         }
+
+        if (view.Parent is not View parentLayout)
+        {
+            parentLayout = view;
+        }
         
         var currentX = view.X + e.TotalX;
         var currentY = view.Y + e.TotalY;
-        if (currentX > _layout.Width)
+        if (currentX > parentLayout.Width)
         {
-            currentX = _layout.Width;
+            currentX = parentLayout.Width;
         }
 
-        if (currentY > _layout.Height)
+        if (currentY > parentLayout.Height)
         {
-            currentY = _layout.Height;
+            currentY = parentLayout.Height;
         }
 
         if (Math.Abs(_lastPanX - currentX) < Tolerance || Math.Abs(_lastPanY - currentY) < Tolerance)
@@ -72,7 +73,6 @@ public sealed class PanGestureHandler
 
         _lastPanX = currentX;
         _lastPanY = currentY;
-
 
         var cell = _game.GetNearestChild(currentX, currentY);
         if (cell == _lastCell)

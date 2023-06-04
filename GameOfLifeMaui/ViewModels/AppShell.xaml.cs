@@ -1,6 +1,6 @@
 ﻿namespace GameOfLifeMaui.ViewModels;
 
-public partial class AppShell
+public sealed partial class AppShell
 {
     public AppShell()
     {

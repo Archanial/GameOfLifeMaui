@@ -1,6 +1,6 @@
 ﻿using GameOfLifeMaui.Entities;
 
-namespace GameOfLifeMaui;
+namespace GameOfLifeMaui.Database;
 
 public interface IDatabase
 {

@@ -3,7 +3,7 @@ using GameOfLifeMaui.ViewModels.Pages;
 
 namespace GameOfLifeMaui.ViewModels;
 
-public partial class ColorHolder
+public sealed partial class ColorHolder
 {
     private readonly int _age;
     

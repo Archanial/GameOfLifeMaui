@@ -1,6 +1,6 @@
 ﻿namespace GameOfLifeMaui.Entities;
 
-public class SettingsEntity
+public sealed class SettingsEntity
 {
     public int Id { get; set; }
     

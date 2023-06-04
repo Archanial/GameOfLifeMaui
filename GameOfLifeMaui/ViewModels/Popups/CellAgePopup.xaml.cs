@@ -3,7 +3,7 @@ using GameOfLifeMaui.ViewModels.Pages;
 
 namespace GameOfLifeMaui.ViewModels.Popups;
 
-public partial class CellAgePopup
+public sealed partial class CellAgePopup
 {
     public CellAgePopup()
     {

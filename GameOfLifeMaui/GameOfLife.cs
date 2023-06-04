@@ -1,27 +1,27 @@
-﻿namespace GameOfLifeMaui;
+﻿using GameOfLifeMaui.Models;
+
+namespace GameOfLifeMaui;
 
 public sealed class Game
 {
-    private int _maxX;
+    public int MaxX { get; private set; }
 
-    private int _maxY;
+    public int MaxY { get; private set; }
 
     private Cell[,] _generation;
     
-    private int _cellSize = 30;
+    private int _cellSize;
     
     private int _xMargin;
     
     private int _yMargin;
 
-    public readonly AbsoluteLayout Layout;
-    
     private const int CellSpacing = 2;
     
-    public Game(AbsoluteLayout layout)
+    public Game()
     {
-        _generation = new Cell[_maxX, _maxY];
-        Layout = layout;
+        _generation = new Cell[MaxX, MaxY];
+        _cellSize = SettingsManager.CurrentCellSize;
     }
     
     public bool DrawNext()
@@ -36,14 +36,14 @@ public sealed class Game
         var aliveCells = 0;
         for (var i = -1; i <= 1; i++)
         {
-            if(x + i < 0 || x + i >= _maxX)
+            if(x + i < 0 || x + i >= MaxX)
             {
                 continue;
             }
             
             for (var j = -1; j <= 1; j++)
             {
-                if (y + j < 0 || y + j >= _maxY)
+                if (y + j < 0 || y + j >= MaxY)
                 {
                     continue;
                 }
@@ -59,9 +59,9 @@ public sealed class Game
     {
         Clear();
         var random = seed.HasValue ? new Random(seed.Value) : new Random();
-        for (var i = 0; i < _maxX; i++)
+        for (var i = 0; i < MaxX; i++)
         {
-            for (var j = 0; j < _maxY; j++)
+            for (var j = 0; j < MaxY; j++)
             {
                 _generation[i, j].SetNextState(random.Next(0, 101) > 70);
                 _generation[i, j].SetCurrentState();
@@ -73,9 +73,9 @@ public sealed class Game
 
     public void Clear()
     {
-        for (var i = 0; i < _maxX; i++)
+        for (var i = 0; i < MaxX; i++)
         {
-            for (var j = 0; j < _maxY; j++)
+            for (var j = 0; j < MaxY; j++)
             {
                 _generation[i, j].SetNextState(false);
                 _generation[i, j].SetCurrentState();
@@ -85,14 +85,22 @@ public sealed class Game
 
     public async Task ChangeCellSize(int newSize)
     {
+        if (_cellSize == newSize) return;
+
         _cellSize = newSize;
-        await CalculateNewCellNumber(Layout);
+        await CalculateNewCellNumber();
         DrawNext();
     }
     
-    public Task CalculateNewCellNumber(Layout layout)
+    public Task CalculateNewCellNumber(AbsoluteLayout layout = null)
     {
-        var newY = (int)(layout.Height / _cellSize);
+        if (layout == null)
+        {
+            if (_generation.Length == 0) return Task.CompletedTask;
+            layout = _generation[0, 0]?.Parent as AbsoluteLayout;
+        }
+        
+        var newY = (int)(layout!.Height / _cellSize);
         var newX = (int)(layout.Width / _cellSize);
         
         _xMargin = (int)((layout.Width - newX * _cellSize) / 2);
@@ -100,7 +108,7 @@ public sealed class Game
 
         if (newY > 0 && newX > 0)
         {
-            UpdateCellNumber(newX, newY);
+            UpdateCellNumber(newX, newY, layout);
         }
 
         return Task.CompletedTask;
@@ -123,26 +131,66 @@ public sealed class Game
         {
             xValue = 0;
         }
-        else if (xValue >= _maxX)
+        else if (xValue >= MaxX)
         {
-            xValue = _maxX - 1;
+            xValue = MaxX - 1;
         }
 
         if (yValue < 0)
         {
             yValue = 0;
         }
-        else if (yValue >= _maxY)
+        else if (yValue >= MaxY)
         {
-            yValue = _maxY - 1;
+            yValue = MaxY - 1;
         }
 
         return _generation[xValue, yValue];
     }
-    
-    private void UpdateCellNumber(int newX, int newY)
+
+    public List<CellDto> PrepareForSave()
     {
-        if (newX < 0 || newY < 0 || newX == _maxX && newY == _maxY)
+        var result = new List<CellDto>();
+        for (var i = 0; i < MaxX; i++)
+        {
+            for (var j = 0; j < MaxY; j++)
+            {
+                if (_generation[i, j].IsAlive)
+                {
+                    result.Add(new CellDto
+                    {
+                        X = i,
+                        Y = j,
+                        Age = _generation[i, j].Age
+                    });
+                }
+            }
+        }
+
+        return result;
+    }
+    
+    public void ReadFromSave(List<CellDto> data)
+    {
+        foreach (var cell in data)
+        {
+            if(cell.X >= MaxX || cell.Y >= MaxY) continue;
+            _generation[cell.X, cell.Y].SetNextState(true);
+            _generation[cell.X, cell.Y].SetCurrentState();
+            _generation[cell.X, cell.Y].Age = cell.Age;
+        }
+    }
+
+    public void SetCellState(int x, int y, bool alive)
+    {
+        if (alive == _generation[x, y].IsAlive) return;
+        _generation[x, y].SetNextState(alive);
+        _generation[x, y].SetCurrentState();
+    }
+
+    private void UpdateCellNumber(int newX, int newY, AbsoluteLayout layout)
+    {
+        if (newX < 0 || newY < 0 || newX == MaxX && newY == MaxY)
         {
             return;
         }
@@ -155,7 +203,7 @@ public sealed class Game
             for (var j = 0; j < newY; j++)
             {
                 //we are in bounds
-                if (j < _maxY && i < _maxX)
+                if (j < MaxY && i < MaxX)
                 {
                     newBoard[i, j] = _generation[i, j];
                 }
@@ -163,34 +211,35 @@ public sealed class Game
                 else
                 {
                     newBoard[i, j] = new Cell(i, j, false, this);
-                    Layout.Add(newBoard[i, j]);
+                    layout.Add(newBoard[i, j]);
                 }
             }
 
-            if (newY >= _maxY || i >= _maxX)
+            if (newY >= MaxY || i >= MaxX)
             {
                 continue;
             }
             
-            for(var j = newY; j < _maxY; j++)
+            for(var j = newY; j < MaxY; j++)
             {
-                Layout.Remove(_generation[i, j]);
+                layout.Remove(_generation[i, j]);
             }
         }
-        if (newX < _maxX)
+        if (newX < MaxX)
         {
-            for(var i = newX; i < _maxX; i++)
+            for(var i = newX; i < MaxX; i++)
             {
-                for(var j = 0; j < _maxY; j++)
+                for(var j = 0; j < MaxY; j++)
                 {
-                    Layout.Remove(_generation[i, j]);
+                    layout.Remove(_generation[i, j]);
                 }
             }
         }
 
         foreach (var cell in newBoard)
         {
-            Layout.SetLayoutBounds(cell, new Rect(
+            layout.SetLayoutBounds(cell, new Rect(
+                // ReSharper disable PossibleLossOfFraction
                 cell.IndexX * _cellSize + _xMargin + CellSpacing / 2, 
                 cell.IndexY * _cellSize + _yMargin + CellSpacing / 2, 
                 _cellSize - CellSpacing, 
@@ -198,15 +247,15 @@ public sealed class Game
         }
 
         _generation = newBoard;
-        _maxX = newX;
-        _maxY = newY;
+        MaxX = newX;
+        MaxY = newY;
     }
-
+    
     private void SetNextStateGlobal()
     {
-        for (var i = 0; i < _maxX; i++)
+        for (var i = 0; i < MaxX; i++)
         {
-            for (var j = 0; j < _maxY; j++)
+            for (var j = 0; j < MaxY; j++)
             {
                 _generation[i, j].SetCurrentState();
             }
@@ -217,9 +266,9 @@ public sealed class Game
     {
         var anyCellAlive = false;
         
-        for (var i = 0; i < _maxX; i++)
+        for (var i = 0; i < MaxX; i++)
         {
-            for (var j = 0; j < _maxY; j++)
+            for (var j = 0; j < MaxY; j++)
             {
                 if (_generation[i, j].ProcessLife())
                 {

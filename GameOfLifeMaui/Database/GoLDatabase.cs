@@ -1,7 +1,7 @@
 ﻿using GameOfLifeMaui.Entities;
 using SQLite;
 
-namespace GameOfLifeMaui;
+namespace GameOfLifeMaui.Database;
 
 public sealed class GoLDatabase : IDatabase
 {

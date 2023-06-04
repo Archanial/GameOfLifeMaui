@@ -3,9 +3,11 @@ using GameOfLifeMaui.ViewModels.Pages;
 
 namespace GameOfLifeMaui.ViewModels.Popups;
 
-public sealed partial class CellSizePopup
+public sealed partial class NextCyclesPopup
 {
-    public CellSizePopup()
+    private const int MaxCycles = 1000;
+    
+    public NextCyclesPopup()
     {
         InitializeComponent();
         BindingContext = this;
@@ -20,7 +22,7 @@ public sealed partial class CellSizePopup
             return;
         }
 
-        if (parsed is <= SettingsManager.MinCellSize or >= SettingsManager.MaxCellSize)
+        if (parsed is <= 0 or >= MaxCycles)
         {
             await Toast.Make("Entered value too small or too big").Show();
             return;
@@ -28,11 +30,10 @@ public sealed partial class CellSizePopup
         
         if (Shell.Current.CurrentPage is SettingsPage settingsPage)
         {
-            settingsPage.OnSizeChanged(parsed);
+            settingsPage.OnNextFramesChanged(parsed);
         }
 
-        await MainThread.InvokeOnMainThreadAsync(async () 
-            => await SettingsManager.ChangeCellSize(parsed));
+        await SettingsManager.ChangeNextButtonFrames(parsed);
         Close();
     }
 }

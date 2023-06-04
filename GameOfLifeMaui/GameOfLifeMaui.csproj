@@ -56,7 +56,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="CommunityToolkit.Maui" Version="3.1.0" />
+      <PackageReference Include="CommunityToolkit.Maui" Version="5.0.0" />
       <PackageReference Include="nor0x.Maui.ColorPicker" Version="1.0.1" />
       <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
       <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
@@ -88,6 +88,12 @@
         <SubType>Designer</SubType>
       </MauiXaml>
       <MauiXaml Update="ViewModels\AppShell.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="ViewModels\Popups\NextCyclesPopup.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="ViewModels\Popups\FractalPopup.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>
@@ -127,6 +133,14 @@
       </Compile>
       <Compile Update="ViewModels\AppShell.xaml.cs">
         <DependentUpon>AppShell.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ViewModels\Popups\NextCyclesPopup.xaml.cs">
+        <DependentUpon>NextButtonCyclesPopup.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ViewModels\Popups\FractalPopup.xaml.cs">
+        <DependentUpon>FractalPopup.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

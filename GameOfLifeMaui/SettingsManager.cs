@@ -1,11 +1,14 @@
-﻿using GameOfLifeMaui.Entities;
+﻿using GameOfLifeMaui.Database;
+using GameOfLifeMaui.Entities;
+using GameOfLifeMaui.Models.Enums;
+using GameOfLifeMaui.ViewModels.Pages;
 
 namespace GameOfLifeMaui;
 
 public static class SettingsManager
 {
-    public static Game Game { private get; set; }
-
+    public static Game Game { get; private set; }
+    
     public static int CurrentCellSize { get; private set; } = 30;
 
     public const int MinCellSize = 12;
@@ -18,13 +21,19 @@ public static class SettingsManager
     
     public static int[] SArg { get; private set; }
     
-    public static IDatabase Database { private get; set; }
+    public static int NextButtonFrames { get; private set; } = 1;
+
+    private static IDatabase _database;
     
     private static SortedDictionary<int, Color> _colors = new();
 
     private static List<int> _keys = new();
 
     private static Dictionary<int, Color> _cachedColors;
+    
+    private static int _miscSettings = (int)MiscSettingsBitflagEnum.None;
+
+    private static MainPage _mainPage;
 
     static SettingsManager()
     {
@@ -32,6 +41,34 @@ public static class SettingsManager
         BArg = new[] { 3 };
         SArg = new[] { 2, 3 };
         BuildColorsCache();
+    }
+
+    public static async void Initialize(Game game, MainPage mainPage, IDatabase database)
+    {
+        Game = game;
+        _mainPage = mainPage;
+        _database = database;
+        await LoadSettings();
+    }
+
+    public static bool GetMiscSetting(MiscSettingsBitflagEnum bitflag) => _miscSettings.HasFlag((int)bitflag);
+    
+    public static async Task SetMiscSetting(MiscSettingsBitflagEnum bitflag, bool isEnabled)
+    {
+        if (_miscSettings.HasFlag((int)bitflag) == isEnabled)
+        {
+            return;
+        }
+        if (isEnabled)
+        {
+            _miscSettings |= (int)bitflag;
+        }
+        else
+        {
+            _miscSettings &= ~(int)bitflag;
+        }
+
+        await HandleMiscSettings(bitflag, isEnabled);
     }
     
     public static async Task ChangeCellSize(int newSize, bool save = true)
@@ -42,6 +79,12 @@ public static class SettingsManager
         {
             await SaveSetting(Constants.FieldNameCellSize, newSize.ToString());
         }
+    }
+    
+    public static async Task ChangeNextButtonFrames(int value)
+    {
+        NextButtonFrames = value;
+        await SaveSetting(Constants.FieldNextButtonFrames, value.ToString());
     }
     
     public static async Task ChangeTappedCellAge(int age)
@@ -79,6 +122,10 @@ public static class SettingsManager
         Game.UpdateColors();
         await SaveColorSetting(age);
     }
+    
+    public static async Task SaveToFile() => await _mainPage.SaveLayoutToFile();
+
+    public static async Task ReadFromFile() => await _mainPage.ReadLayoutFromFile();
 
     public static string GetRuleString => $"B{string.Join("", BArg)}/S{string.Join("", SArg)}";
 
@@ -113,9 +160,9 @@ public static class SettingsManager
         return color ?? _cachedColors[_keys.Last()];
     }
 
-    public static async void LoadSettings()
+    private static async Task LoadSettings()
     {
-        var settings = await Database.GetSettingsAsync();
+        var settings = await _database.GetSettingsAsync();
         if (!settings?.Any() ?? true)
         {
             return;
@@ -138,10 +185,19 @@ public static class SettingsManager
                     await MainThread.InvokeOnMainThreadAsync(async () 
                         => await ChangeCellSize(int.Parse(field.Value), false));
                     break;
+                case Constants.FieldMiscSettings:
+                    if (!int.TryParse(field.Value, out var miscSettings)) break;
+                    _miscSettings = miscSettings;
+                    await HandleMiscSettingsLoaded();
+                    break;
+                case Constants.FieldNextButtonFrames:
+                    if (!int.TryParse(field.Value, out var nextButtonFrames)) break;
+                    NextButtonFrames = nextButtonFrames;
+                    break;
             }
         }
         
-        var colors = await Database.GetColorsAsync();
+        var colors = await _database.GetColorsAsync();
         if (colors == null || !colors.Any())
         {
             return;
@@ -150,21 +206,17 @@ public static class SettingsManager
             .Select(x => new KeyValuePair<int, Color>(x.Age, new Color(x.Red, x.Green, x.Blue, x.Alpha)))
             .ToDictionary(x => x.Key, x=> x.Value));
         BuildColorsCache();
-        Game.UpdateColors();
     }
     
-    private static async Task SaveSetting(string field, string value)
-    {
-        await Database.SaveSettingAsync(new SettingsEntity
+    private static async Task SaveSetting(string field, string value) =>
+        await _database.SaveSettingAsync(new SettingsEntity
         {
             FieldName = field,
             Value = value
         });
-    }
-    
-    private static async Task SaveColorSetting(int age, Color color)
-    {
-        await Database.SaveColorAsync(new ColorAgeEntity
+
+    private static async Task SaveColorSetting(int age, Color color) =>
+        await _database.SaveColorAsync(new ColorAgeEntity
         {
             Age = age,
             Alpha = color.Alpha,
@@ -172,9 +224,8 @@ public static class SettingsManager
             Green = color.Green,
             Blue = color.Blue
         });
-    }
-    
-    private static async Task SaveColorSetting(int age) => await Database.RemoveColorAsync(age);
+
+    private static async Task SaveColorSetting(int age) => await _database.RemoveColorAsync(age);
 
     private static async void SetRulestring(string value, bool bMode, bool save)
     {
@@ -219,27 +270,28 @@ public static class SettingsManager
         }
     }
 
-    private static string ArrayToString(this int[] array)
+    private static async Task HandleMiscSettingsLoaded()
     {
-        if (array.Length == 0)
+        foreach (var value in Enum.GetValues(typeof(MiscSettingsBitflagEnum)))
         {
-            return "";
+            await HandleMiscSettings((MiscSettingsBitflagEnum)value, _miscSettings.HasFlag((int)value), false);
+        }
+    }
+    
+    private static async Task HandleMiscSettings(MiscSettingsBitflagEnum bitflag, bool value, bool save = true)
+    {
+        switch (bitflag)
+        {
+            case MiscSettingsBitflagEnum.None:
+                return;
+            case MiscSettingsBitflagEnum.ManualNextButtonShown:
+                _mainPage.ToggleNextButton(value);
+                break;
+            case MiscSettingsBitflagEnum.ScreenshotButtonShown:
+                _mainPage.ToggleScreenshotButton(value);
+                break;
         }
         
-        var arrayString = array[0].ToString();
-
-        for (var i = 1; i < array.Length; i++)
-        {
-            arrayString += $",{array[i]}";
-        }
-
-        return arrayString;
-    }
-
-    private static int[] ParseArgs(this string s)
-    {
-        var sArray = s.Split(",");
-
-        return Array.ConvertAll(sArray, int.Parse);
+        if(save) await SaveSetting(Constants.FieldMiscSettings, _miscSettings.ToString());
     }
 }

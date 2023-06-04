@@ -1,6 +1,6 @@
 ﻿namespace GameOfLifeMaui.Entities;
 
-public class ColorAgeEntity
+public sealed class ColorAgeEntity
 {
     public int Id { get; set; }
     

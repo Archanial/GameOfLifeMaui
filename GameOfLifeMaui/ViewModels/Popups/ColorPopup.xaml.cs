@@ -2,7 +2,7 @@
 
 namespace GameOfLifeMaui.ViewModels.Popups;
 
-public partial class ColorPopup
+public sealed partial class ColorPopup
 {
     private const string ColorFieldString = "Color:";
 

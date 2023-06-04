@@ -11,36 +11,41 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <AbsoluteLayout x:Name="AbsoluteLayout"
-                   SizeChanged="OnLayoutSizeChanged"/>
+        <AbsoluteLayout x:Name="GameLayout" x:FieldModifier="public" SizeChanged="OnLayoutSizeChanged"/>
 
             <Grid Grid.Row="1"
                   ColumnDefinitions="20*, 20*, 20*, 20*, 20*"
                   ColumnSpacing="6" 
-                  HorizontalOptions="FillAndExpand">
+                  HorizontalOptions="FillAndExpand"
+                  x:Name="ButtonHolder"
+                  HeightRequest="35">
             <Button x:Name="RunButton"
                     Grid.Column="0"
                     Text="Start"
                     Clicked="OnRunButtonClicked" 
-                    HorizontalOptions="FillAndExpand" />
+                    HorizontalOptions="FillAndExpand"
+                    Padding="0"/>
             <Button Text="Clear"
                     Grid.Column="1"
                     Clicked="OnClearButtonClicked" 
-                    HorizontalOptions="FillAndExpand" />
+                    HorizontalOptions="FillAndExpand"
+                    Padding="0"/>
             <Button Text="Seed"
                     Grid.Column="2"
                     Clicked="OnSeedButtonClicked"
-                    HorizontalOptions="FillAndExpand" />
+                    HorizontalOptions="FillAndExpand" 
+                    Padding="0"/>
             <Button Text="Speed"
                     Grid.Column="3"
                     Clicked="OnSpeedButtonClicked" 
-                    HorizontalOptions="FillAndExpand" />
+                    HorizontalOptions="FillAndExpand"
+                    Padding="0"/>
             <Button Text="Settings"
                     Grid.Column="4"
                     Clicked="OnSettingsButtonClicked" 
                     HorizontalOptions="FillAndExpand"
                     Padding="0"/>
-        </Grid>
+            </Grid>
     </Grid>
  
 </ContentPage>

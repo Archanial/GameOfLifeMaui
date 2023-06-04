@@ -1,6 +1,6 @@
 ﻿namespace GameOfLifeMaui.ViewModels;
 
-public partial class App
+public sealed partial class App
 {
     public App()
     {

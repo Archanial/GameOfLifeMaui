@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GameOfLifeMaui.ViewModels.Pages.SettingsPage"
              Title="Settings">
-    
     <ScrollView>
         <Grid class="Settings">
             <Grid.RowDefinitions>
@@ -15,44 +14,108 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0"
-                   class="SettingsSmall"
-                Text="CELL SIZE"/>
-            <Label Grid.Row="1" 
-                   class="Settings"
-                   x:Name="CellSize">
+            <Label Grid.Row="0" class="SettingsSmall" Text="CELL SIZE"/>
+            <Label Grid.Row="1"  class="Settings" x:Name="CellSize">
                 <Label.GestureRecognizers>
-                    <TapGestureRecognizer
-                        Tapped="OnCellSizeClick"/>
+                    <TapGestureRecognizer Tapped="OnCellSizeClick"/>
                 </Label.GestureRecognizers>
             </Label>
-            <Label Grid.Row="2"
-                   class="SettingsSmall"
-                   Text="RULESTRING"/>
-            <Label Grid.Row="3"
-                   class="Settings"
-                   x:Name="Rulestring">
+            <Label Grid.Row="2" class="SettingsSmall" Text="RULESTRING"/>
+            <Label Grid.Row="3" class="Settings" x:Name="Rulestring">
                 <Label.GestureRecognizers>
-                    <TapGestureRecognizer
-                        Tapped="ChangeRulestring"/>
+                    <TapGestureRecognizer Tapped="ChangeRulestring"/>
                 </Label.GestureRecognizers>
             </Label>
-            <Label Grid.Row="4"
-                   class="SettingsSmall"
-                   Text="COLORS"/>
-            <Label Grid.Row="5"
-                   class="Settings"
-                   x:Name="TappedAge">
+            <Label Grid.Row="4" class="SettingsSmall" Text="COLORS"/>
+            <Label Grid.Row="5" class="Settings" x:Name="TappedAge">
                 <Label.GestureRecognizers>
-                    <TapGestureRecognizer
-                        Tapped="TappedCellAgeChange"/>
+                    <TapGestureRecognizer Tapped="TappedCellAgeChange"/>
                 </Label.GestureRecognizers>
             </Label>
-            <Grid Grid.Row="6"
-                  class="Settings"
-                  x:Name="ColorsSection"/>
+            <Grid Grid.Row="6" class="Settings" x:Name="ColorsSection"/>
+            <Label Grid.Row="7" class="SettingsSmall" Text="MISCELLANEOUS"/>
+            <Grid Grid.Row="8"
+                  class="Settings">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition x:Name="GenerationsClickRow"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ToggleNextButton"/>
+                    </Grid.GestureRecognizers>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox x:Name="NextButtonCheckbox" class="Settings">
+                        <CheckBox.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ToggleNextButton"/>
+                        </CheckBox.GestureRecognizers>
+                    </CheckBox>
+                    <Label Grid.Column="1" VerticalTextAlignment="Center">Enable next button</Label>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnNextButtonFramesClick"/>
+                    </Grid.GestureRecognizers>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="1" x:Name="NextButtonFrames" VerticalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnNextButtonFramesClick"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ToggleScreenshotButton"/>
+                    </Grid.GestureRecognizers>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox x:Name="ScreenshotButtonCheckbox" class="Settings">
+                        <CheckBox.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ToggleScreenshotButton"/>
+                        </CheckBox.GestureRecognizers>
+                    </CheckBox>
+                    <Label Grid.Column="1" VerticalTextAlignment="Center">Enable screenshot button</Label>
+                </Grid>
             </Grid>
+            <Label Grid.Row="9" class="Settings">
+                Save current screen to file
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="SaveToFile"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Label Grid.Row="10" class="Settings">
+                Restore screen from file
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ReadFromFile"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Label Grid.Row="11" class="SettingsSmall" Text="FRACTALS"/>
+            <Label Grid.Row="12" class="Settings" Text="Draw Sierpiński Carpet">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="DrawCarpet"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <!-- <Label Grid.Row="13" class="Settings" Text="Draw Sierpiński Triangle"> -->
+            <!--     <Label.GestureRecognizers> -->
+            <!--         <TapGestureRecognizer Tapped="DrawTriangle"/> -->
+            <!--     </Label.GestureRecognizers> -->
+            <!-- </Label> -->
+        </Grid>
     </ScrollView>
-    
 </ContentPage>
