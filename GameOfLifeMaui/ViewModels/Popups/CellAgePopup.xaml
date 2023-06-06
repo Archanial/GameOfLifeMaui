@@ -6,7 +6,7 @@
        
       <Grid class="Popup"
             ColumnSpacing="0"
-            WidthRequest="600"
+            WidthRequest="300"
             HeightRequest="250"
             Padding="10, 10, 10, 10">
             <Grid.RowDefinitions>
